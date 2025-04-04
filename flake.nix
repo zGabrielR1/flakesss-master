@@ -97,7 +97,7 @@
       };
     in
     {
-      nixosConfigurations."nixos-laptop" = nixpkgs.lib.nixosSystem {
+      nixosConfigurations."laptop" = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = { inherit inputs; };
         modules = [
@@ -142,9 +142,10 @@
           modules = [
             # Select ONE of the following window manager configurations:
             # ./home/profiles/zrrg/wm/hyprland/isabel.nix # Hyprland Config (isabel-roses)
+            # ./home/profiles/zrrg/wm/hyprland/amadeus.nix # Hyprland Config (amadeus-wm-nixos-dots)
             ./home/profiles/zrrg/wm/awesome/aura.nix # AwesomeWM (Crystal-Aura) Config
             # ./home/profiles/zrrg/wm/niri/kaku.nix    # Niri Config (kaku)
-
+    
             # Other common home-manager modules can be added here, e.g.:
             # ./home/zrrg # If you have a base zrrg home.nix
           ];
