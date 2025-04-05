@@ -77,6 +77,13 @@
 
     # --- Community Repos ---
     nur.url = "github:nix-community/NUR"; # Keep if NUR packages are used
+    # --- Rices ---
+    amadeus-wm-nixos-dots.url = "github:AmadeusWM/nixos-dots";
+    CmrCrabsNixDots.url = "github:CmrCrabs/nixdots";
+    crystal-og.url = "github:namishh/crystal";
+    isabel-roses-dotfiles.url = "github:isabelroses/dotfiles";
+    kaku.url = "github:linuxmobile/kaku";
+    ndots.url = "github:niksingh710/ndots";
   };
 
   outputs = { self, nixpkgs, home-manager, flake-parts, ... }@inputs:
