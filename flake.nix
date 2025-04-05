@@ -107,7 +107,6 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.zrrg = import ./home/zrrg;
             
             nix.settings = {
               substituters = [
