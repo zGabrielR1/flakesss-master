@@ -4,6 +4,8 @@
   inputs = {
     # --- Core ---
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -69,7 +71,6 @@
       url = "github:pfaj/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable"; # Keep if needed for specific packages
     # ghostty = { url = "github:ghostty-org/ghostty"; }; # Keep if needed
 
     # --- Compatibility ---
@@ -86,7 +87,7 @@
     ndots.url = "github:niksingh710/ndots";
   };
 
-  outputs = { self, nixpkgs, home-manager, flake-parts, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, flake-parts, determinate, chaotic, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ]; # Define supported systems
       perSystem = { config, pkgs, system, lib, ... }: {
@@ -106,6 +107,8 @@
             modules = [
               # Core Modules
               home-manager.nixosModules.home-manager
+              determinate.nixosModules.default
+              chaotic.nixosModules.default # Chaotic Nyx Module
 
               # Custom NixOS Modules (Import the top-level module directly)
               ./modules/nixos/default.nix
