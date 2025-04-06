@@ -163,6 +163,11 @@
     # glibc
     # gcc.cc.lib
   ];
+
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
+  };
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -187,6 +192,9 @@
     awesome
     niri
     flatpak
+    rofi-wayland
+    bottles
+    wine-staging
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
