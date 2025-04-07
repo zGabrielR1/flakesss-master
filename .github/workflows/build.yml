@@ -20,8 +20,8 @@ jobs:
       - name: Set up Cachix
         uses: cachix/cachix-action@v12
         with:
-          name: ${{ secrets.CACHIX_NAME }}
-          signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
+          name: ${{ secrets.zgabrielr }}
+          authToken: ${{ secrets.eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJmYjRkNTg4ZS03OTNiLTRjMzItODA2NS02Y2ZlOGEzY> }}
 
       - name: Build NixOS config
         run: |
