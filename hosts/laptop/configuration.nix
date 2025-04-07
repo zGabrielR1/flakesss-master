@@ -135,7 +135,6 @@
     # Ensure state version matches system state version for consistency
     home.stateVersion = config.system.stateVersion;
   };
-  };
 
   # Install firefox.
   programs.firefox.enable = true;
