@@ -29,7 +29,7 @@
     # Music related
     ncmpcpp
     mpd
-    mpDris2
+    mpdris2
 
     # Terminal
     wezterm
@@ -73,7 +73,7 @@
   services.mpd = {
     enable = true;
     # Optional: configure music directory, etc.
-    # musicDirectory = "${config.home.homeDirectory}/Music";
+    musicDirectory = "${config.home.homeDirectory}/Music";
     # databaseFile = "${config.home.homeDirectory}/.config/mpd/database";
     # playlistDirectory = "${config.home.homeDirectory}/.config/mpd/playlists";
     # stateFile = "${config.home.homeDirectory}/.config/mpd/state";
