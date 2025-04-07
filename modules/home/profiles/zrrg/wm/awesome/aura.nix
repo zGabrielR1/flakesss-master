@@ -45,10 +45,10 @@
 
   # Copy the crystal-aura configuration files to ~/.config/awesome
   # Using xdg.configFile ensures it goes to the right place (~/.config)
-  xdg.configFile."awesome" = {
-    source = ./crystal-aura; # Assumes aura.nix is in the parent dir of crystal-aura
-    recursive = true;
-  };
+  # xdg.configFile."awesome" = {
+  #   source = ./crystal-aura; # Assumes aura.nix is in the parent dir of crystal-aura
+  #   recursive = true;
+  # };
 
   # Create the lock script mentioned in the README
   home.file.".local/bin/lock" = {
