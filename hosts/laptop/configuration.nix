@@ -109,6 +109,32 @@
     packages = with pkgs; [
     #  thunderbird
     ];
+    # packages = with pkgs; [ ]; # System-level packages for user are less common with HM
+  };
+
+  # Define Home Manager configuration for the user 'zrrg'
+  home-manager.users.zrrg = { pkgs, ... }: {
+    imports = [
+      # Import your primary home-manager configuration entrypoint
+      # Corrected path relative to hosts/laptop/configuration.nix
+      ../../modules/home/profiles/zrrg/wm/awesome/aura.nix
+
+      # --- EXAMPLE: Importing an external 'rice' Home Manager module ---
+      # Assuming 'kaku' flake input provides a homeManagerModule named 'default'
+      # inputs.kaku.homeManagerModules.default
+
+      # --- EXAMPLE: Importing an external 'rice' NixOS module (less common for pure HM rices) ---
+      # Some rices might offer NixOS options too, import them here if needed system-wide,
+      # or within the HM config if they are HM options.
+    ];
+
+    # You can set home-manager options directly here too, or keep them in imported files
+    home.username = "zrrg";
+    home.homeDirectory = "/home/zrrg";
+
+    # Ensure state version matches system state version for consistency
+    home.stateVersion = config.system.stateVersion;
+  };
   };
 
   # Install firefox.
@@ -177,7 +203,15 @@
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
-    vscode
+    # VSCode Insiders build
+    ((pkgs.vscode.override { isInsiders = true; }).overrideAttrs (oldAttrs: rec {
+      src = (builtins.fetchTarball {
+        url = "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
+        sha256 = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+      });
+      version = "latest";
+      buildInputs = oldAttrs.buildInputs ++ [ pkgs.krb5 ];
+    }))
     code-cursor
     windsurf
     git
