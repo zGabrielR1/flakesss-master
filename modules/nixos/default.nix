@@ -1,12 +1,14 @@
 # modules/nixos/default.nix
-# This is the main entry point for shared NixOS system modules.
+# Main entry point for shared NixOS modules
 { config, pkgs, lib, inputs, ... }:
 
 {
-  # Add shared NixOS options and configurations here.
-  # For example:
-  # environment.systemPackages = [ pkgs.htop ];
-  # services.openssh.enable = true;
-
-  # imports = [ ./another-module.nix ];
+  imports = [
+    ./locale.nix
+    ./virtualization.nix
+    ./audio.nix
+    ./networking.nix
+    ./packages.nix
+    ./nix-settings.nix
+  ];
 }

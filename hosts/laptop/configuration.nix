@@ -24,24 +24,6 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-  # Set your time zone.
-  time.timeZone = "America/Sao_Paulo";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "pt_BR.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "pt_BR.UTF-8";
-    LC_IDENTIFICATION = "pt_BR.UTF-8";
-    LC_MEASUREMENT = "pt_BR.UTF-8";
-    LC_MONETARY = "pt_BR.UTF-8";
-    LC_NAME = "pt_BR.UTF-8";
-    LC_NUMERIC = "pt_BR.UTF-8";
-    LC_PAPER = "pt_BR.UTF-8";
-    LC_TELEPHONE = "pt_BR.UTF-8";
-    LC_TIME = "pt_BR.UTF-8";
-  };
-
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   networking.nftables.enable = true;
@@ -66,21 +48,6 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
   
-  # Enable common container config files in /etc/containers
-  virtualisation.containers.enable = true;
-  virtualisation = {
-    podman = {
-      enable = true;
-      # Required for containers under podman-compose to be able to talk to each other.
-      defaultNetwork.settings.dns_enabled = true;
-    };
-    docker = {
-        enable = true;
-    };
-    incus = {
-        enable = true;
-    };
-  };
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
