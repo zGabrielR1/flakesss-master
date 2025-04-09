@@ -29,5 +29,5 @@ jobs:
     
       - name: Show derivation info
         run: |
-          nix show-derivation .#nixosConfigurations.your-hostname.config.system.build.toplevel
+          nix show-derivation .#nixosConfigurations.laptop.config.system.build.toplevel
 
