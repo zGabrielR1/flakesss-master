@@ -1,34 +1,34 @@
-name: Build and cache NixOS system
+name: Build and cache NixOS flake
 
-on:
-  push:
+on: 
+  push: 
+    branches: [master] 
+  pull_request: 
     branches: [master]
-  pull_request:
 
-jobs:
-  build:
+jobs: 
+  build: 
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
-
+    
       - name: Install Nix
-        uses: cachix/install-nix-action@v22
+        uses: cachix/install-nix-action@v25
         with:
-          install_url: https://releases.nixos.org/nix/nix-2.18.1/install
+          nix_path: nixpkgs=channel:nixos-unstable
 
       - name: Set up Cachix
         uses: cachix/cachix-action@v12
         with:
-          name: ${{ secrets.zgabrielr }}
-          authToken: ${{ secrets.eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJmYjRkNTg4ZS03OTNiLTRjMzItODA2NS02Y2ZlOGEzY> }}
-
-      - name: Build NixOS config
+          name: your-cachix-cache-name   # Replace with your actual cache name
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
+    
+      - name: Build NixOS flake
         run: |
-          nix build .#nixosConfigurations.myhost.config.system.build.toplevel
+          nix build .#nixosConfigurations.your-hostname.config.system.build.toplevel
+    
+      - name: Show derivation info
+        run: |
+          nix show-derivation .#nixosConfigurations.your-hostname.config.system.build.toplevel
 
-      - name: Upload system as artifact (optional)
-        uses: actions/upload-artifact@v3
-        with:
-          name: nixos-result
-          path: result/
