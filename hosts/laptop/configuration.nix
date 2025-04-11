@@ -70,7 +70,7 @@
   users.users.zrrg = {
     isNormalUser = true;
     description = "Gabriel Renostro";
-    extraGroups = [ "networkmanager" "wheel" "incus-admin" "podman" ];
+    extraGroups = [ "networkmanager" "wheel" "incus-admin" "podman" "video" "input" "seat" ];
     shell = pkgs.zsh;
   };
 
@@ -78,6 +78,7 @@
   home-manager.users.zrrg = { pkgs, ... }: {
     imports = [
       ../../modules/home/profiles/zrrg/wm/awesome/aura.nix
+      ../../modules/home/profiles/zrrg/wm/hyprland/nixy
     ];
     home.username = "zrrg";
     home.homeDirectory = "/home/zrrg";
@@ -87,7 +88,11 @@
   # Programs
   programs = {
     firefox.enable = true;
-    hyprland.enable = true;
+    hyprland = {
+      enable = true;
+      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+      xwayland.enable = true;
+    };
     nix-ld.enable = true;
     nix-ld.libraries = with pkgs; [
       glib
@@ -213,6 +218,7 @@
       login.enableGnomeKeyring = true;
       swaylock = {};
     };
+    polkit.enable = true;
   };
 
   # Services
@@ -231,6 +237,34 @@
     avahi = {
       enable = true;
       nssmdns = true;
+    };
+
+    # Enable seat management for Hyprland
+    seatd = {
+      enable = true;
+      package = pkgs.seatd;
+    };
+
+    # Enable dbus
+    dbus.enable = true;
+
+    # Enable gvfs
+    gvfs.enable = true;
+  };
+
+  # Hardware
+  hardware = {
+    # Enable opengl
+    opengl = {
+      enable = true;
+      driSupport = true;
+      driSupport32Bit = true;
+    };
+
+    # Enable bluetooth
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
     };
   };
 }

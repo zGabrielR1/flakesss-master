@@ -37,6 +37,13 @@
     };
     mcmojave-hyprcursor.url = "github:libadoxon/mcmojave-hyprcursor";
 
+    # --- External Configurations ---
+    nixy = {
+      url = "github:anotherhadi/nixy";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.hyprland.follows = "hyprland";
+    };
+
     # --- Niri ---
     niri = {
       url = "github:sodiboo/niri-flake";
@@ -75,7 +82,7 @@
     nur.url = "github:nix-community/NUR";
   };
 
-  outputs = { self, nixpkgs, home-manager, flake-parts, determinate, chaotic, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, flake-parts, determinate, chaotic, nixy, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ];
       
@@ -127,6 +134,7 @@
             extraSpecialArgs = { inherit inputs self; };
             modules = [
               ./modules/home/profiles/zrrg/wm/awesome/aura.nix
+              ./modules/home/profiles/zrrg/wm/hyprland/nixy
             ];
           };
         };
