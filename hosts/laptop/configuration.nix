@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, ... }:
 
 {
   imports =
@@ -28,13 +28,12 @@
   services.xserver.enable = true;
   networking.nftables.enable = true;
   networking.firewall.trustedInterfaces = [
-    "incusbr0" 
-    "docker0" 
-];
-# Enable the Cinnamon Desktop Environment.
+    "incusbr0"
+    "docker0"
+  ];
+  # Enable the Cinnamon Desktop Environment.
   services.xserver.displayManager.lightdm.enable = true;
   services.xserver.desktopManager.cinnamon.enable = true;
-  
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -47,7 +46,6 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-  
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
@@ -59,7 +57,6 @@
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
-
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
@@ -74,33 +71,8 @@
     description = "Gabriel Renostro";
     extraGroups = [ "networkmanager" "wheel" "incus-admin" "podman" ];
     packages = with pkgs; [
-    #  thunderbird
+      # Add user packages here if needed
     ];
-    # packages = with pkgs; [ ]; # System-level packages for user are less common with HM
-  };
-
-  # Define Home Manager configuration for the user 'zrrg'
-  home-manager.users.zrrg = { pkgs, ... }: {
-    imports = [
-      # Import your primary home-manager configuration entrypoint
-      # Corrected path relative to hosts/laptop/configuration.nix
-      ../../modules/home/profiles/zrrg/wm/awesome/aura.nix
-
-      # --- EXAMPLE: Importing an external 'rice' Home Manager module ---
-      # Assuming 'kaku' flake input provides a homeManagerModule named 'default'
-      # inputs.kaku.homeManagerModules.default
-
-      # --- EXAMPLE: Importing an external 'rice' NixOS module (less common for pure HM rices) ---
-      # Some rices might offer NixOS options too, import them here if needed system-wide,
-      # or within the HM config if they are HM options.
-    ];
-
-    # You can set home-manager options directly here too, or keep them in imported files
-    home.username = "zrrg";
-    home.homeDirectory = "/home/zrrg";
-
-    # Ensure state version matches system state version for consistency
-    home.stateVersion = config.system.stateVersion;
   };
 
   # Install firefox.
@@ -108,21 +80,14 @@
   programs.hyprland.enable = true;
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
-    # GLib and related libraries
     glib
     glib-networking
     gobject-introspection
-    
-    # NSS components
     nss
     nspr
-    
-    # System libraries
     dbus
     libdbusmenu-gtk3
-    systemd # For libudev.so.1
-    
-    # GTK and display related
+    systemd
     gtk3
     atk
     at-spi2-atk
@@ -139,37 +104,26 @@
     xorg.libXrandr
     mesa
     libgbm
-    
-    # Other dependencies
     libxkbcommon
     expat
     xorg.libxcb
     alsa-lib
-    
-    # Special handling for libffmpeg.so
-    # You may need to copy this from the AppImage itself if it's not in a standard location
-    # Otherwise, try using ffmpeg-full which might provide a compatible version
     ffmpeg-full
-    
-    # Already provided by the system but included for completeness
-    # glibc
-    # gcc.cc.lib
   ];
 
   programs.appimage = {
     enable = true;
     binfmt = true;
   };
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
-    # VSCode Insiders build
+    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    #  wget
     ((pkgs.vscode.override { isInsiders = true; }).overrideAttrs (oldAttrs: rec {
       src = (builtins.fetchTarball {
         url = "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
@@ -224,14 +178,16 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
+
   system.autoUpgrade = {
     enable = true;
-    flake = inputs.self.outPath;
-    flags = [
-      "--update-input"
-      "nixpkgs"
-      "-L" # print build logs
-    ];
+    # Remove flake-specific references
+    # flake = inputs.self.outPath;
+    # flags = [
+    #   "--update-input"
+    #   "nixpkgs"
+    #   "-L" # print build logs
+    # ];
     dates = "02:00";
     randomizedDelaySec = "45min";
   };
